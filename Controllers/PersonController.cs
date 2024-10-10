@@ -14,13 +14,15 @@ public class PersonController(GiftsContext context) : ControllerBase
     public async Task<ActionResult<IEnumerable<PersonDto>>> GetPeopleAsync()
     {
         var people = await context.People
+            .OrderBy(p => p.Name)
+            .ThenBy(p => p.Id)
             .Select(p => new PersonDto { Id = p.Id, Name = p.Name })
             .ToListAsync();
 
         return Ok(people);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:long}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<PersonDto>> GetPersonAsync(long id)
@@ -46,13 +48,15 @@ public class PersonController(GiftsContext context) : ControllerBase
 
         await context.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(GetPersonAsync), new { id = person.Id }, personDto);
+        personDto.Id = person.Id;
+
+        return CreatedAtRoute(new { id = person.Id }, personDto);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:long}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> UpdatePersonAsync(long id, PersonDto personDto)
+    public async Task<ActionResult> UpdatePersonAsync(long id, [FromBody] PersonDto personDto)
     {
         var person = await context.People.FindAsync(id);
 
@@ -63,10 +67,12 @@ public class PersonController(GiftsContext context) : ControllerBase
 
         await context.SaveChangesAsync();
 
+        personDto.Id = person.Id;
+
         return Ok(personDto);
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:long}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> DeletePersonAsync(long id)
     {

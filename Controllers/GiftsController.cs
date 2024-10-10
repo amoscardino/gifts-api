@@ -81,13 +81,15 @@ public class GiftsController(GiftsContext context) : ControllerBase
 
         await context.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(GetGiftAsync), new { id = gift.Id }, giftDto);
+        giftDto.Id = gift.Id;
+
+        return CreatedAtRoute(new { id = gift.Id }, giftDto);
     }
 
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> UpdateGiftAsync(long id, GiftDto giftDto)
+    public async Task<ActionResult> UpdateGiftAsync(long id, [FromBody]GiftDto giftDto)
     {
         var gift = await context.Gifts.FindAsync(id);
 
@@ -101,6 +103,8 @@ public class GiftsController(GiftsContext context) : ControllerBase
         gift.Notes = giftDto.Notes;
 
         await context.SaveChangesAsync();
+
+        giftDto.Id = gift.Id;
 
         return Ok(giftDto);
     }
