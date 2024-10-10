@@ -5,8 +5,9 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <InvariantGlobalization>true</InvariantGlobalization>
-      <UserSecretsId>06a50ec1-4880-47de-a593-5123f0cce0c6</UserSecretsId>
-  </PropertyGroup>
+        <UserSecretsId>06a50ec1-4880-47de-a593-5123f0cce0c6</UserSecretsId>
+        <Version>1.0.0</Version>
+    </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
