@@ -16,6 +16,9 @@ public class GiftsController(GiftsContext context) : ControllerBase
     {
         var gifts = await context.Gifts
             .Include(g => g.Person)
+            .OrderBy(g => g.Person.Name)
+            .ThenBy(g => g.Name)
+            .ThenBy(g => g.Price)
             .Select(g => new GiftDto
             {
                 Id = g.Id,
