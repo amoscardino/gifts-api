@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GiftsAPI.Controllers;
 
-[Route("api/gifts")]
+[Route("api/gift")]
 public class GiftsController(GiftsContext context) : ControllerBase
 {
 
@@ -60,7 +60,7 @@ public class GiftsController(GiftsContext context) : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> CreateGiftAsync(GiftDto giftDto)
+    public async Task<ActionResult> CreateGiftAsync([FromBody] GiftDto giftDto)
     {
         var person = await context.People.FindAsync(giftDto.Person.Id);
 
@@ -89,13 +89,13 @@ public class GiftsController(GiftsContext context) : ControllerBase
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> UpdateGiftAsync(long id, [FromBody]GiftDto giftDto)
+    public async Task<ActionResult> UpdateGiftAsync(long id, [FromBody] GiftDto giftDto)
     {
         var gift = await context.Gifts.FindAsync(id);
 
         if (gift == null)
             return NotFound();
-    
+
         gift.Name = giftDto.Name;
         gift.Status = giftDto.Status;
         gift.Price = giftDto.Price;
