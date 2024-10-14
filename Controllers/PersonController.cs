@@ -40,7 +40,7 @@ public class PersonController(GiftsContext context) : ControllerBase
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<ActionResult> CreatePersonAsync([FromBody]PersonDto personDto)
+    public async Task<ActionResult> CreatePersonAsync([FromBody] PersonDto personDto)
     {
         var person = new Person { Name = personDto.Name };
 
@@ -80,6 +80,9 @@ public class PersonController(GiftsContext context) : ControllerBase
 
         if (person != null)
         {
+            foreach (var gift in person.Gifts)
+                context.Gifts.Remove(gift);
+
             context.People.Remove(person);
             await context.SaveChangesAsync();
         }
