@@ -33,10 +33,10 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
     scope.ServiceProvider.GetRequiredService<GiftsContext>().Database.Migrate();
 
-app.UseCors();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();
+app.UseCors();
 
 app.MapControllers();
 
