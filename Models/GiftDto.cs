@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using GiftsAPI.Enums;
+using GiftsAPI.Data.Enums;
 
 namespace GiftsAPI.Models;
 

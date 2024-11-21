@@ -1,4 +1,4 @@
-namespace GiftsAPI.Enums;
+namespace GiftsAPI.Data.Enums;
 
 public enum GiftStatus
 {
